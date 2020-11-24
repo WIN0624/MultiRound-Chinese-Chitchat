@@ -13,7 +13,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom:50%;" />
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom: 33%;" />
 
 ## 数据集
 
@@ -74,5 +74,5 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 * **学习HuggingFace transfomers的使用**
 
     * reference：[BERT Fine-Tuning Tutorial with PyTorch](#https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
-    * [笔记](#)
+    * [笔记](#https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
 
