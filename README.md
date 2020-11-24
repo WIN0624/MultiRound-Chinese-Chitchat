@@ -40,8 +40,8 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 ## 改进方向
 
-* [动态神经网络](#https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)：传递推理，能够解决指代关系
-* [编码方式改变](#https://github.com/bojone/nezha_gpt_dialog)：将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
+* [动态神经网络](https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)：传递推理，能够解决指代关系
+* [编码方式改变](https://github.com/bojone/nezha_gpt_dialog)：将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
 
 ## 知识储备
 
