@@ -57,7 +57,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * **调研当前已有的中文对话生成项目**
 
-    1. [CDIAL-GPT](#https://arxiv.org/abs/2008.03946) 
+    1. [CDIAL-GPT](https://arxiv.org/abs/2008.03946) 
 
         > github：https://github.com/thu-coai/CDial-GPT
 
@@ -73,6 +73,6 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * **学习HuggingFace transfomers的使用**
 
-    * reference：[BERT Fine-Tuning Tutorial with PyTorch](#https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
-    * [笔记](#https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
+    * reference：[BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
+    * [笔记](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
 
