@@ -1,3 +1,7 @@
+# MultiRound-Chinese-Chichat
+
+A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round chichat.
+
 ## Demand
 
 * 实现一个基于对话历史的多轮对话模型
@@ -9,7 +13,7 @@
 
 * 输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom:67%;" />
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom:50%;" />
 
 ## 数据集
 
@@ -29,20 +33,21 @@
 
         > 编码方式：BERT
 
-* 
-
 ## 训练流程
 
 * 预训练模型：中文小说GPT
 * 用LCCC-base数据集微调
-* 
 
 ## 改进方向
 
 * [动态神经网络](#https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)：传递推理，能够解决指代关系
 * [编码方式改变](#https://github.com/bojone/nezha_gpt_dialog)：将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
 
-## 进度推进情况
+## 知识储备
+
+
+
+## 推进情况
 
 ### 11.21-11.22
 
@@ -67,6 +72,7 @@
         * 预训练模型：Bert tokenizer和GPT-2预训练模型
 
 * **学习HuggingFace transfomers的使用**
+
     * reference：[BERT Fine-Tuning Tutorial with PyTorch](#https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
     * [笔记](#)
 
