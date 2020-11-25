@@ -1,3 +1,7 @@
+---
+
+---
+
 # MultiRound-Chinese-Chichat
 
 A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round chichat.
@@ -13,55 +17,86 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom: 67%;" />
-
-## 数据集
-
-* LCCC：https://github.com/thu-coai/CDial-GPT
-    * base：微博对话
-    * large：微博对话 + 开源中文对话数据集
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom: 50%;" />
 
 ## 模型选择
 
-* 预训练模型
+* 预训练模型：Novel-GPT
 
-    * 方案一：Novel-GPT，用中文小说数据（5亿词）对12层GPT模型进行预训练
+    > 由[CDIAL-GPT](#)提供，用中文小说数据（5亿词）对12层GPT模型进行预训练
 
-        > 编码方式：BPE
-
-    * 方案二：BERT tokenizer + GPT-2
-
-        > 编码方式：BERT，空格分词（LCCC已分好）
-
-* 超参数
+* 微调数据集：由[CDIAL-GPT](#)提供的LCCC数据集
   
-    * 学习率更新方式：noam、linear
-    * 编码方式：目前分词
+    * base：微博对话
+    * large：微博对话 + 开源中文对话数据集
     
-* 
+* 解码策略：DialoGPT的MMI模型
+  
 
-## 训练流程
+## 整体框架
 
-* 预训练模型：中文小说GPT
-* 用LCCC-base数据集微调
+### 训练过程
+
+**Step1 载入数据集**
+
+* 流程
+
+    ```mermaid
+    graph TD
+    A[数据集载入] --> B[初始化数据集对象] --> C[保存数据集对象]
+    ```
+
+* **难点：大数据集的载入**
+
+    ```python
+    with open(path, r, encoding='utf-8') as f:
+    	dataset = json.loads()
+    ```
+
+**Step2.1 模型训练| 数据集处理**
+
+* pipeline
+
+    ```mermaid
+    graph TD
+    A[在数据集的__getitem__进行对话整合和编码] 
+    A --> B[在构建DataLoader时通过collate_fn进行padding]
+    ```
+
+* **对话整合的要点**
+
+    * 将句子拼接成：[CLS] question1 [SEP] answer1 [SEP] question2 [SEP] answer2 [SEP]
+    * 对句子进行编码，得到input_ids
+    * 令question部分的token_type为[speaker1]，answer部分的token_type为[speaker2]
+
+**Step2.2 模型训练 | TrainingLoop**
+
+* **重点：loss的计算**
+    * 用outputs中第n-1个位置的概率分布，预测第n个token
+
+**Step3 模型评估**
+
+* 在`model.eval()`模式下，借助测试集对模型进行评估
+
+### 对话过程
 
 ## 改进方向
 
 * [动态神经网络](https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)：传递推理，能够解决指代关系
 * [编码方式改变](https://github.com/bojone/nezha_gpt_dialog)：将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
-* UNLM模型：不预测问句部分，只预测答句部分，改变mask编码
-
-## 知识储备
-
-
+* UNLM模型：改变mask编码：不预测问句部分，只预测答句部分
 
 ## 推进情况
 
-### 11.21-11.22
+### 理论知识学习 | 11.21-11.22 
 
-理论知识学习
+* [模型相关知识](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/1.%E6%A8%A1%E5%9E%8B%E7%9F%A5%E8%AF%86.md)
+* [多轮对话参考项目](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/3.%E5%A4%9A%E8%BD%AE%E5%AF%B9%E8%AF%9D%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE.md)
+* [BERT微调项目](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
+* [HuggingFace transformers使用](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/5.%20transformers%E4%BD%BF%E7%94%A8.md)
+* [参数学习的技巧和模型评价指标](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/2.%E5%8F%82%E6%95%B0%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BB%B7.md)
 
-### 11.23
+### 已有模型调研 | 11.23 
 
 * **调研当前已有的中文对话生成项目**
 
@@ -84,6 +119,6 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     * reference：[BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
     * [笔记](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
 
-### 11.24
+### 代码实现 | 11.24-11.25
 
-* 研究以上两个项目的源码
+* 研究以上两个项目的源码，进行代码复现和优化
