@@ -13,7 +13,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom: 33%;" />
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" alt="image-20201121154711357" style="zoom: 67%;" />
 
 ## 数据集
 
@@ -31,7 +31,14 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
     * 方案二：BERT tokenizer + GPT-2
 
-        > 编码方式：BERT
+        > 编码方式：BERT，空格分词（LCCC已分好）
+
+* 超参数
+  
+    * 学习率更新方式：noam、linear
+    * 编码方式：目前分词
+    
+* 
 
 ## 训练流程
 
@@ -42,6 +49,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * [动态神经网络](https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)：传递推理，能够解决指代关系
 * [编码方式改变](https://github.com/bojone/nezha_gpt_dialog)：将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
+* UNLM模型：不预测问句部分，只预测答句部分，改变mask编码
 
 ## 知识储备
 
@@ -76,3 +84,6 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     * reference：[BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
     * [笔记](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
 
+### 11.24
+
+* 研究以上两个项目的源码
