@@ -1,7 +1,3 @@
----
-
----
-
 # MultiRound-Chinese-Chichat
 
 A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round chichat.
@@ -30,8 +26,13 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     * base：微博对话
     * large：微博对话 + 开源中文对话数据集
     
-* 解码策略：DialoGPT的MMI模型
+* 优化器：AdamW
   
+* WarmUp：线性增加和衰减
+  
+* 解码策略：temperature + topp采样 + DialoGPT的MMI模型
+  
+  > 按照互信息程度，对topp的回答重排，降低泛回答的权重
 
 ## 整体框架
 
@@ -119,6 +120,15 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     * reference：[BERT Fine-Tuning Tutorial with PyTorch](https://mccormickml.com/2019/07/22/BERT-fine-tuning/)
     * [笔记](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/4.BERT_TUTORIAL.md)
 
-### 代码实现 | 11.24-11.25
+### 代码实现 | 11.24-11.26
 
-* 研究以上两个项目的源码，进行代码复现和优化
+* 研究GPT2 for Chinese chitchat的源码，进行代码复现和优化
+* 11.24
+    * 源码阅读(训练部分)
+    * 实现数据集加载
+* 11.25
+    * 源码阅读(训练部分)
+    * 实现训练过程。
+    * 优化数据处理。融合了CDial-GPT的实现逻辑，实现对大数据集的载入，且改进了token2id的方式。
+* 11.26
+    * 源码阅读(interact部分)
