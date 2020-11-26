@@ -13,7 +13,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="70%" height="70%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="80%" height="80%">
 
 ## 模型选择
 
@@ -55,7 +55,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * pipeline
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105443989.png" width="70%" height="60%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105443989.png" width="80%" height="50%">
     
 * **对话整合的要点**
 
