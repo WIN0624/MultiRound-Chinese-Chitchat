@@ -42,6 +42,12 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 流程
 
+    op1=>operation: 数据集载入
+    op2=>operation: 初始化数据集对象
+    op3=>operation: 保存数据集对象
+
+    op1->op2->op3
+
     ```
     op1=>operation: 数据集载入
     op2=>operation: 初始化数据集对象
