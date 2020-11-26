@@ -42,20 +42,8 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 流程
 
-    op1=>operation: 数据集载入
-    op2=>operation: 初始化数据集对象
-    op3=>operation: 保存数据集对象
-
-    op1->op2->op3
-
-    ```
-    op1=>operation: 数据集载入
-    op2=>operation: 初始化数据集对象
-    op3=>operation: 保存数据集对象
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105423344.png" alt="image-20201126105423344" style="zoom:50%;" />
     
-    op1->op2->op3
-    ```
-
 * **难点：大数据集的载入**
 
     ```python
@@ -67,13 +55,8 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * pipeline
 
-    ```mermaid
-    mermaid
-    graph TD
-    A[在数据集的__getitem__进行对话整合和编码] 
-    A --> B[在构建DataLoader时通过collate_fn进行padding]
-    ```
-
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105443989.png" alt="image-20201126105443989" style="zoom:50%;" />
+    
 * **对话整合的要点**
 
     * 将句子拼接成：[CLS] question1 [SEP] answer1 [SEP] question2 [SEP] answer2 [SEP]
