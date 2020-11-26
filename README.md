@@ -43,6 +43,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 * 流程
 
     ```mermaid
+    mermaid
     graph TD
     A[数据集载入] --> B[初始化数据集对象] --> C[保存数据集对象]
     ```
@@ -59,6 +60,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 * pipeline
 
     ```mermaid
+    mermaid
     graph TD
     A[在数据集的__getitem__进行对话整合和编码] 
     A --> B[在构建DataLoader时通过collate_fn进行padding]
