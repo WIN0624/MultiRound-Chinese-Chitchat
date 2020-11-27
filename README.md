@@ -33,7 +33,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
   
 * 解码策略：temperature + topp采样 + DialoGPT的MMI模型
   
-  > 按照互信息程度，对topp的回答重排，降低泛回答的权重
+  > 按照互信息程度，对candidate_responses重新排序，降低泛回答的权重
 
 ## 训练情况
 
