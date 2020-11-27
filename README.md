@@ -111,7 +111,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 ### 理论知识学习 | 11.21-11.22 
 
-<img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127101440643.png" alt="image-20201127101440643" style="zoom:60%;" />
+<img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127101537165.png" alt="image-20201127101537165" style="zoom:67%;" />
 
 * [模型相关知识](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/1.%E6%A8%A1%E5%9E%8B%E7%9F%A5%E8%AF%86.md)
 * [多轮对话参考项目](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/3.%E5%A4%9A%E8%BD%AE%E5%AF%B9%E8%AF%9D%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE.md)
