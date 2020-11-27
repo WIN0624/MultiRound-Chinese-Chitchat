@@ -7,25 +7,26 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 * 实现一个基于对话历史的多轮对话模型
 
     * 输入是对话历史和用户的当前语句
-    * 输出是候选的回答及对应的概率(或是loss)
-    * 参考convai、dialoGPT或者使用其他模型如LSTM等
-    * 要是更进一步的话可以尝试调研并使用中文数据
+    * 输出是候选的回答及对应的loss
+    
+* 预期输出效果图
 
-* 输出效果图
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="50%" height="50%">
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="60%" height="60%">
+* **最终输出效果**
+
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png" alt="image-20201127082657399" style="zoom:67%;" />
 
 ## 模型选择
 
-* 预训练模型：Novel-GPT
+* 预训练模型：CDial-GPT2_LCCC-base
 
-    > 由[CDIAL-GPT](#)提供，用中文小说数据（5亿词）对12层GPT模型进行预训练
+    > 由[CDIAL-GPT](#)提供，利用LCCC-base数据集（微博对话）在NovelGPT基础上进行预训练
 
-* 微调数据集：由[CDIAL-GPT](#)提供的LCCC数据集
-  
-    * base：微博对话
-    * large：微博对话 + 开源中文对话数据集
-    
+* 微调数据集：[STC数据集](https://cloud.tsinghua.edu.cn/f/372be4a9994b4124810e/?dl=1)
+
+    > STC.json：627M；STC_test.json：2.98M
+
 * 优化器：AdamW
   
 * WarmUp：线性增加和衰减
@@ -33,6 +34,11 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 * 解码策略：temperature + topp采样 + DialoGPT的MMI模型
   
   > 按照互信息程度，对topp的回答重排，降低泛回答的权重
+
+## 训练情况
+
+* 训练集：此次实现过程并没有跑完整的数据集，而只拿了测试集(2.98M)进行微调
+* 对话模型和MMI模型都进行了3个epoch，对话模型的准确率为50%~60%，MMI模型的准确率为50%~65%
 
 ## 整体框架
 
@@ -48,7 +54,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
     ```python
     with open(path, r, encoding='utf-8') as f:
-    	dataset = json.loads()
+    	dataset = json.loads(f.read())
     ```
 
 **Step2.1 模型训练| 数据集处理**
@@ -74,11 +80,45 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 ### 对话过程
 
+1. **利用对话模型得到candidate_response**
+
+    * **难点**：candidate_response列表，长度为response_num，但每个response长度不一，不能批量处理
+
+        <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127083302965.png" alt="image-20201127083302965" style="zoom:67%;" />
+
+    ```mermaid
+    graph TD
+    A[处理当前句子与历史对话的拼接和编码]
+    A --> B[对每个候选回答预测下一个token]
+    B --> C["权值调整：惩罚重复项、除以temperature、极小化[UNK]"]
+    C --> D["使用top-k或top-p进行采样得到next_token"]
+    D -."next_token == [SEP]".-> F1[终止该response的继续生成]
+    D -."next_token != [SEP]".-> F2[将next_token加入该response序列]
+    F1 --> G["当所有response终止，将其拼接为一句话存入candidate_response"]
+    F2 --> H[处理input_ids和token_type_ids]
+    H -->B
+    ```
+
+2. **用MMI模型得到最佳回答**
+
+    * 按照MMI的输入，逆序拼接candidate_response和历史对话
+
+    * 传入MMI模型，计算loss
+    
+        > 每次比较，得出最小的作为best_response
+    >
+        > 输出到控制台，同时加入history，记录历史对话
+
+    * 将loss最小的回答作为best_response
+
 ## 改进方向
 
-* [动态神经网络](https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)：传递推理，能够解决指代关系
-* [编码方式改变](https://github.com/bojone/nezha_gpt_dialog)：将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
-* UNLM模型：改变mask编码：不预测问句部分，只预测答句部分
+1. 在已有的checkpoints上，用完整的训练集对两个模型进行训练（增加epoch）
+2. 当前只实现了多轮对话，并没有考虑上下文的指代关系。后续可以考虑使用[动态神经网络](https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)（传递推理，解决指代关系）
+
+3. [改变编码方式](https://github.com/bojone/nezha_gpt_dialog)
+    * 将当前模型的定长编码换成NEZHA的相对位置编码，能接受更长的句子输入
+    * UNLM模型：改变mask编码：不预测问句部分，只预测答句部分
 
 ## 推进情况
 
