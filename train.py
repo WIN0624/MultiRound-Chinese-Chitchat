@@ -1,12 +1,11 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import json
 import time
 import torch
 import logging
 import datetime
 import argparse
-from dataset import LcccDataset
+from dataset import MyDataset
 from torch.nn import CrossEntropyLoss
 from transformers.modeling_gpt2 import GPT2Config, GPT2LMHeadModel
 from transformers import BertTokenizer, AdamW, get_linear_schedule_with_warmup
@@ -18,25 +17,27 @@ logger = None
 def set_args():
     parser = argparse.ArgumentParser()
     # HyperParameters
-    parser.add_argument('--lr', default=2e-5, type=float)
+    parser.add_argument('--lr', default=5e-5, type=float)
     parser.add_argument('--epochs', default=3, type=int)
     parser.add_argument('--batch_size', default=8, type=int)
     parser.add_argument('--warmup_steps', default=2000, type=int)
     parser.add_argument('--max_grad_norm', default=1.0, type=float)
-    parser.add_argument('--gradient_accumulation', default=8, type=int)
+    parser.add_argument('--gradient_accumulation', default=4, type=int)
     # mmi
-    parser.add_argument('--train_mmi', default=False)
+    parser.add_argument('--train_mmi', action='store_true')
     # logs
-    parser.add_argument('--log_path', default='./', type=str)
+    parser.add_argument('--log_name', default='./Training.log', type=str)
+    parser.add_argument('--mmi_log_name', default='./MMITraining.log', type=str)
     parser.add_argument('--log_step', default=1, type=int)
     # Paths
-    parser.add_argument('--vocab_path', default='resource/Novel_GPT/', type=str)
-    parser.add_argument('--raw_data_path', default='resource/LCCC-base-split/', type=str)
-    parser.add_argument('--pretrained_model', default='resource/Novel_GPT/', type=str)
+    parser.add_argument('--vocab_path', default='resource/CDial-GPT2_LCCC-base/', type=str)
+    parser.add_argument('--raw_data_path', default='resource/STC/', type=str)
+    parser.add_argument('--pretrained_model', default='resource/CDial-GPT2_LCCC-base/', type=str)
     parser.add_argument('--token_data_path', default='tokenized_dataset/', type=str)
     parser.add_argument('--mmi_model_output_path', default='models/mmi/', type=str)
     parser.add_argument('--dialogue_model_output_path', default='models/dialogue/', type=str)
     # Device
+    parser.add_argument('--gpu', default='0,1', type=str)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     parser.add_argument('--device', default=device, type=str)
     return parser.parse_args()
@@ -49,7 +50,7 @@ def create_logger(args):
     formatter = logging.Formatter("[%(asctime)s]  %(levelname)-12s | %(message)s", "%Y-%m-%d %H:%M:%S")
 
     # 创建一个handler，用于写入日志文件
-    log_name = f'{args.log_path}Training.log'
+    log_name = args.log_name if not args.train_mmi else args.mmi_log_name
     file_handler = logging.FileHandler(filename=log_name, mode='w')
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.INFO)
@@ -72,22 +73,21 @@ def get_dataset(raw_data_path, tokenizer, n_ctx, saved_path, mmi=False):
         - n_ctx：当前模型规定的序列长度，对话合并后的token不能超过该长度
         - train：获取用作训练的数据集
     '''
-
     dataset = {}
-    # for key in ['train', 'valid', 'test']:
-    for key in ['train', 'test']:
+    # for key in ['train', 'test']:
+    for key in ['test']:
         data_cache = f'{saved_path}{key}_{type(tokenizer).__name__}'
         if os.path.exists(data_cache):
             dataset[key] = torch.load(data_cache)
             logger.info("there are {} dialogues in {} cached dataset".format(len(dataset[key]), key))
         else:
             # 1. 读入原数据
-            with open(f'{raw_data_path}LCCC-base_{key}.json', 'r', encoding='utf-8') as f:
+            with open(f'{raw_data_path}STC_{key}.json', 'r', encoding='utf-8') as f:
                 raw_data = json.loads(f.read())
-                logger.info("there are {} dialogues in {} raw dataset".format(len(raw_data), key))
+                logger.info("there are {} dialogues in {} raw dataset".format(len(raw_data[key]), key))
             # 2. 初始化数据集对象
             logger.info(f'Start encoding for {key} dataset...')
-            dataset[key] = LcccDataset(raw_data, tokenizer, n_ctx, mmi)
+            dataset[key] = MyDataset(raw_data[key], tokenizer, n_ctx, mmi)
             # 3. 存储数据集
             torch.save(dataset[key], data_cache)
     return dataset
@@ -183,7 +183,7 @@ def train(model, train_dataset, args):
                     current_step += 1
                     if current_step % args.log_step == 0:
                         logger.info(
-                            "batch {} of epoch {}, loss {}, accuracy {}".format(idx + 1, epoch + 1, loss, accuracy))
+                            "step {}: batch {} of epoch {}, loss {}, accuracy {}".format(current_step, idx + 1, epoch + 1, loss, accuracy))
             except RuntimeError as exception:
                 if "out of memory" in str(exception):
                     oom_times += 1
@@ -242,6 +242,9 @@ def evaluation(model, test_dataset, args):
 
 def main():
     args = set_args()
+    # 设置使用哪些显卡进行训练
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+
     global logger
     logger = create_logger(args)
     logger.info('using device:{}'.format(args.device))
@@ -257,8 +260,8 @@ def main():
 
     logger.info('Loading data for training and evaluation ...')
     dataset = get_dataset(args.raw_data_path, tokenizer, n_ctx, args.token_data_path, args.train_mmi)
-    train(model, dataset['train'], args)
-    evaluation(model, dataset['test'], args)
+    train(model, dataset['test'], args)
+    # evaluation(model, dataset['test'], args)
 
 
 if __name__ == '__main__':
