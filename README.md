@@ -15,7 +15,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * **最终输出效果**
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png"  width="45%" height="45%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png"  width="49%" height="45%">
 
 ## 模型选择
 
