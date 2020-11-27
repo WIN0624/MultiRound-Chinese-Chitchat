@@ -11,11 +11,11 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     
 * 预期输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="60%" height="55%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="58%" height="55%">
 
 * **最终输出效果**
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png"  width="40%" height="35%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png"  width="45%" height="40%">
 
 ## 模型选择
 
