@@ -11,11 +11,11 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     
 * 预期输出效果图
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="50%" height="50%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="55%" height="55%">
 
 * **最终输出效果**
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png" alt="image-20201127082657399" style="zoom:67%;" />
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png"  width="45%" height="45%">
 
 ## 模型选择
 
@@ -61,7 +61,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * pipeline
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105443989.png" width="50%" height="40%">
+    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105443989.png" width="55%" height="50%">
     
 * **对话整合的要点**
 
@@ -85,19 +85,6 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
     * **难点**：candidate_response列表，长度为response_num，但每个response长度不一，不能批量处理
 
         <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127083302965.png" alt="image-20201127083302965" style="zoom:67%;" />
-
-    ```mermaid
-    graph TD
-    A[处理当前句子与历史对话的拼接和编码]
-    A --> B[对每个候选回答预测下一个token]
-    B --> C["权值调整：惩罚重复项、除以temperature、极小化[UNK]"]
-    C --> D["使用top-k或top-p进行采样得到next_token"]
-    D -."next_token == [SEP]".-> F1[终止该response的继续生成]
-    D -."next_token != [SEP]".-> F2[将next_token加入该response序列]
-    F1 --> G["当所有response终止，将其拼接为一句话存入candidate_response"]
-    F2 --> H[处理input_ids和token_type_ids]
-    H -->B
-    ```
 
 2. **用MMI模型得到最佳回答**
 
