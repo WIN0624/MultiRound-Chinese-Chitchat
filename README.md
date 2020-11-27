@@ -21,7 +21,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 * 预训练模型：CDial-GPT2_LCCC-base
 
-    > 由[CDIAL-GPT](#)提供，利用LCCC-base数据集（微博对话）在NovelGPT基础上进行预训练
+    > 由[CDIAL-GPT](https://github.com/thu-coai/CDial-GPT)提供，利用LCCC-base数据集（微博对话）在NovelGPT基础上进行预训练
 
 * 微调数据集：[STC数据集](https://cloud.tsinghua.edu.cn/f/372be4a9994b4124810e/?dl=1)
 
