@@ -37,7 +37,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 ## 训练情况
 
-* 训练集：此次实现过程并没有跑完整的数据集，而只拿了测试集(2.98M)进行微调
+* 训练集：此次实现过程并没有跑完整的数据集，而只拿了小数据集集(2.98M)进行微调
 * 对话模型和MMI模型都进行了3个epoch，对话模型的准确率为50%~60%，MMI模型的准确率为50%~65%
 
 ## 整体框架
