@@ -72,7 +72,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 **Step2.2 模型训练 | TrainingLoop**
 
 * **重点：loss的计算**
-    * 用outputs中第n-1个位置的概率分布，预测第n个token
+    * 用outputs中第n-1个位置的输出 * token embedding，预测第n个token最大概率的词
 
 **Step3 模型评估**
 
