@@ -116,7 +116,7 @@ def calculate_loss_and_accuracy(outputs, pad_id, labels, device):
     not_pad_num = not_pad.long().sum().item()
 
     # accurracy
-    _, preds = torch.max(shifted_logits, dim=-1)    # max返回最值和对应索引，此处下标即token_id
+    _, preds = torch.max(shifted_logits, dim=-1)    # 此处网络最后已经按softmax处理，max返回最值和对应索引，此处下标即token_id
     correct = (preds == shifted_labels) & not_pad
     correct_num = correct.float().sum().item()
 
