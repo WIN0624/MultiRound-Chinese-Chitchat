@@ -1,21 +1,25 @@
 # MultiRound-Chinese-Chichat
 
-A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round chichat.
+A chinese chitchat model based on GPT-2 and DialoGPT which supports multi-round chichat.
 
 ## Demand
 
-* 实现一个基于对话历史的多轮对话模型
+* **Target: A multi-round chitchat chabot concerning dailogue history**
 
-    * 输入是对话历史和用户的当前语句
-    * 输出是候选的回答及对应的loss
+    * Inputs: combination of dialogue history and current round input from users
+    * Output: candidate response and corresponding loss
     
-* 预期输出效果图
+* **KnowledgeMap**
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201121154711357.png" width="58%" height="55%">
+    <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160656582.jpg" style="zoom:67%;" />
 
-* **最终输出效果**
+* **Final Results**
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127082657399.png"  width="49%" height="45%">
+    Though not able to answer with the best candidate sometimes, the chatbot is already capable of generating some history-related candidates.
+
+    <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160652705.jpg" alt="wecom-temp-56851-e223ff049478c7b9e2f435e5145a7216" width="500" height="300" />
+
+    <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160658757.png" alt="image-20231216065804695" width="300" height="400" />
 
 ## 模型选择
 
@@ -46,9 +50,9 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 **Step1 载入数据集**
 
-* 流程
+* **流程**
 
-    <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105423344.png" width="40%" height="40%">
+    <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160709977.png" alt="image-20231216070915908" width="200" />
     
 * **难点：大数据集的载入**
 
@@ -59,10 +63,10 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 **Step2.1 模型训练| 数据集处理**
 
-* pipeline
+* **pipeline**
 
-   <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201126105443989.png" width="55%" height="50%">
-    
+   <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160701252.png" alt="image-20231216070150196" width="340" />
+   
 * **对话整合的要点**
 
     * 将句子拼接成：[CLS] question1 [SEP] answer1 [SEP] question2 [SEP] answer2 [SEP]
@@ -84,7 +88,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
     * **难点**：candidate_response列表，长度为response_num，但每个response长度不一，不能批量处理
 
-        <img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127083302965.png" alt="image-20201127083302965" style="zoom:67%;" />
+        <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160702055.png" alt="image-20231216070230994" style="zoom:40%;" />
 
 2. **用MMI模型得到最佳回答**
 
@@ -111,7 +115,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi round 
 
 ### 理论知识学习 | 11.21-11.22 
 
-<img src="https://gitee.com/WIN0624/document/raw/markdown-picture/img/image-20201127101537165.png" alt="image-20201127101537165" style="zoom:67%;" />
+<img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160656368.jpg" alt="wecom-temp-116349-1ce3960b4f9bf055ec9f889f47ca4ab5" style="zoom: 67%;" />
 
 * [模型相关知识](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/1.%E6%A8%A1%E5%9E%8B%E7%9F%A5%E8%AF%86.md)
 * [多轮对话参考项目](https://github.com/WIN0624/MultiRound-Chinese-Chitchat/blob/main/theories/3.%E5%A4%9A%E8%BD%AE%E5%AF%B9%E8%AF%9D%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE.md)
