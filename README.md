@@ -1,8 +1,27 @@
 # MultiRound-Chinese-Chichat
 
-A chinese chitchat model based on GPT-2 and DialoGPT which supports multi-round chichat.
+[TOC]
 
-## Demand
+### Overview
+
+* **Intern Recruitment Test**
+
+  * A chinese chitchat demo based on DialGPT which supports multi-round chichat
+  * Time Limit: a week
+
+* **Obstacles**：With no NLP background but basic knowledge on DeepLearning
+
+* **Achievements**
+
+  * Outlined the evolution and structures of NLP models, and dived deep in CDial-GPT and MMI model.
+
+    > RNN/LSTM/GRU -> Seq2Seq -> Seq2Seq with Attention -> Transformer -> GPT2
+
+  * Learned Huggingface for pretrained model fintuning
+
+  * Developed the entire pipeline for this NLP task, including training and inference.
+
+### Demand
 
 * **Target: A multi-round chitchat chabot concerning dailogue history**
 
@@ -21,7 +40,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi-round 
 
     <img src="https://cdn.jsdelivr.net/gh/WIN0624/Picgo@main/img/202312160658757.png" alt="image-20231216065804695" width="300" height="400" />
 
-## Model
+### Model
 
 * **Model**
 
@@ -45,15 +64,19 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi-round 
 
   > Rerank candidate responses based on MMI score. 
 
-## Training Process
+### Training Process
 
 * **DatasetSize**: Didn't finish to run the large dataset in this short duration, only 2.98M dataset was applied for fintuning
+
 * **Epochs**: 3 for both CDial-GPT2 and MMI model
-* **Accuracy: CDial-GPT2 50%~60%, MMI model 50%~65%**
 
-## Program Design
+* **Accuracy**: CDial-GPT2 50%~60%, MMI model 50%~65%
 
-### Trianer
+  > Due to time constraints, most of the time was dedicated to succesffully run the training and inference process, instead of improving the accuracy. 
+
+### Program Design
+
+#### Trianer
 
 **Step1.1 DataLoader**
 
@@ -87,7 +110,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi-round 
 
 * 在`model.eval()`模式下，借助测试集对模型进行评估
 
-### 对话过程
+#### Inference
 
 1. **Get candidate_response by CDial-GPT2**
 
@@ -103,7 +126,7 @@ A chinese chitchat model based on GPT-2 and DialoGPT which supports multi-round 
     
     * **Action**: output the answer and add it to the history
 
-## ToDo
+### ToDo
 
 1. 在已有的checkpoints上，用完整的训练集对两个模型进行训练（增加epoch）
 2. 当前只实现了多轮对话，并没有考虑上下文的指代关系。后续可以考虑使用[动态神经网络](https://cs224d.stanford.edu/reports/RaghuvanshiChase.pdf)（传递推理，解决指代关系）
