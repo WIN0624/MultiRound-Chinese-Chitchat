@@ -2,11 +2,12 @@
 
 ### Overview
 
-* **Annotation**
+* **Intern Recruitment Test**
   
-  * Intern Recruitment Test: A chinese chitchat demo based on DialGPT which supports multi-round chichat
+  * Requirement: Impelement a chinese chitchat demo based on DialGPT which supports multi-round chichat
   * Time Limit: a week
-  * Prior Background: Self-studied deep Learning Theories without knowledge of NLP and any model implementaion frameworks
+    
+* **Obstacles**: with self-studied deep learning theories and no prior knowledge of NLP or any model implementaion frameworks
 
 * **Achievements**
 
