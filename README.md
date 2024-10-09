@@ -8,8 +8,6 @@
   * Time Limit: a week
   * Prior Background: Self-studied deep Learning Theories without knowledge of NLP and any model implementaion frameworks
 
-* **Obstacles**：With no NLP background but basic knowledge on DeepLearning
-
 * **Achievements**
 
   * Outlined the evolution and structures of NLP models, and dived deep in CDial-GPT and MMI model.
